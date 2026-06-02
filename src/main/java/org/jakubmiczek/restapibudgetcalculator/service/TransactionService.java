@@ -22,7 +22,7 @@ import java.util.Optional;
 import static org.jakubmiczek.restapibudgetcalculator.repository.TransactionSpecification.*;
 
 @Service
-class TransactionService {
+public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;

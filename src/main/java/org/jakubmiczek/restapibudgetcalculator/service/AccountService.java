@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-class AccountService {
+public class AccountService {
 
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
