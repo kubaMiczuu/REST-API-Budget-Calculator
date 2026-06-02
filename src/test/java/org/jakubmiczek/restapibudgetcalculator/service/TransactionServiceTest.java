@@ -1,6 +1,7 @@
 package org.jakubmiczek.restapibudgetcalculator.service;
 
 import org.jakubmiczek.restapibudgetcalculator.dto.TransactionRequest;
+import org.jakubmiczek.restapibudgetcalculator.dto.TransactionResponse;
 import org.jakubmiczek.restapibudgetcalculator.exception.AccountDoesNotExistException;
 import org.jakubmiczek.restapibudgetcalculator.exception.InsufficientFundsException;
 import org.jakubmiczek.restapibudgetcalculator.exception.TransactionDoesNotExistException;
@@ -195,10 +196,10 @@ public class TransactionServiceTest {
 
         when(transactionRepository.findAll(any(Specification.class))).thenReturn(List.of(transaction));
 
-        List<Transaction> foundTransaction = transactionService.findTransactions(1L, from, to, category);
+        List<TransactionResponse> foundTransaction = transactionService.findTransactions(1L, from, to, category);
 
-        assertThat(foundTransaction.getFirst().getDate()).isEqualTo(LocalDate.now().minusDays(1));
-        assertThat(foundTransaction.getFirst().getCategory()).isEqualTo(category);
+        assertThat(foundTransaction.getFirst().date()).isEqualTo(LocalDate.now().minusDays(1));
+        assertThat(foundTransaction.getFirst().category()).isEqualTo(category);
 
     }
 
@@ -218,9 +219,9 @@ public class TransactionServiceTest {
 
         when(transactionRepository.findAll(any(Specification.class))).thenReturn(List.of(transaction));
 
-        List<Transaction> foundTransaction = transactionService.findTransactions(1L, null, null, null);
+        List<TransactionResponse> foundTransaction = transactionService.findTransactions(1L, null, null, null);
 
-        assertThat(foundTransaction.getFirst().getId()).isEqualTo(1L);
+        assertThat(foundTransaction.getFirst().accountId()).isEqualTo(1L);
 
     }
 }

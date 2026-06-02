@@ -2,6 +2,7 @@ package org.jakubmiczek.restapibudgetcalculator.service;
 
 import jakarta.transaction.Transactional;
 import org.jakubmiczek.restapibudgetcalculator.dto.TransactionRequest;
+import org.jakubmiczek.restapibudgetcalculator.dto.TransactionResponse;
 import org.jakubmiczek.restapibudgetcalculator.exception.AccountDoesNotExistException;
 import org.jakubmiczek.restapibudgetcalculator.exception.InsufficientFundsException;
 import org.jakubmiczek.restapibudgetcalculator.exception.TransactionDoesNotExistException;
@@ -85,12 +86,22 @@ public class TransactionService {
         accountRepository.save(account);
     }
 
-    public List<Transaction> findTransactions(Long id, LocalDate from, LocalDate to, TransactionCategory category) {
+    public List<TransactionResponse> findTransactions(Long id, LocalDate from, LocalDate to, TransactionCategory category) {
         Specification<Transaction> spec = Specification.where(hasAccountId(id));
         if (from != null) spec = spec.and(dateFrom(from));
         if (to != null) spec = spec.and(dateTo(to));
         if (category != null) spec = spec.and(hasCategory(category));
 
-        return transactionRepository.findAll(spec);
+        return transactionRepository.findAll(spec)
+                .stream()
+                .map(transaction -> new TransactionResponse(
+                        transaction.getId(),
+                        transaction.getAmount(),
+                        transaction.getType(),
+                        transaction.getCategory(),
+                        transaction.getDescription(),
+                        transaction.getDate(),
+                        transaction.getAccount().getId()
+                )).toList();
     }
 }
