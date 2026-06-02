@@ -11,8 +11,11 @@ import org.jakubmiczek.restapibudgetcalculator.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class AccountService {
@@ -29,8 +32,11 @@ public class AccountService {
         return accountRepository.findById(id).orElseThrow(() -> new AccountDoesNotExistException(id));
     }
 
-    public List<Account> findAll() {
-        return accountRepository.findAll();
+    public List<AccountResponse> findAll() {
+        return accountRepository.findAll()
+                .stream()
+                .map(account -> new AccountResponse(account.getId(), account.getName(), account.getBalance()))
+                .toList();
     }
 
     public void addAccount(AccountRequest requestedAccount) {

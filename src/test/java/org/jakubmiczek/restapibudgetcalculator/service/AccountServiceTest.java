@@ -101,7 +101,7 @@
 
             when(accountRepository.findAll()).thenReturn(List.of(account));
 
-            List<Account> accounts = accountService.findAll();
+            List<AccountResponse> accounts = accountService.findAll();
 
             assertThat(accounts.size()).isEqualTo(1);
         }
