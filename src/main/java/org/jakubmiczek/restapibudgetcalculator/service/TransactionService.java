@@ -33,7 +33,7 @@ class TransactionService {
     }
 
     @Transactional
-    public void save(TransactionRequest transactionRequest) {
+    public void addTransaction(TransactionRequest transactionRequest) {
         Transaction transaction = new Transaction();
 
         Optional<Account> account = accountRepository.findById(transactionRequest.accountId());
@@ -86,10 +86,10 @@ class TransactionService {
     }
 
     public List<Transaction> findTransactions(Long id, LocalDate from, LocalDate to, TransactionCategory category) {
-        Specification<Transaction> spec = Specification.where(hasAccountId(id))
-                .and(dateFrom(from))
-                .and(dateTo(to))
-                .and(hasCategory(category));
+        Specification<Transaction> spec = Specification.where(hasAccountId(id));
+        if (from != null) spec = spec.and(dateFrom(from));
+        if (to != null) spec = spec.and(dateTo(to));
+        if (category != null) spec = spec.and(hasCategory(category));
 
         return transactionRepository.findAll(spec);
     }

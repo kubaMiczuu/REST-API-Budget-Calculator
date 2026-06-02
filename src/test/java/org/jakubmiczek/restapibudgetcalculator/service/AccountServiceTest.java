@@ -2,13 +2,10 @@
 
     import org.jakubmiczek.restapibudgetcalculator.dto.AccountRequest;
     import org.jakubmiczek.restapibudgetcalculator.dto.AccountResponse;
-    import org.jakubmiczek.restapibudgetcalculator.dto.TransactionRequest;
     import org.jakubmiczek.restapibudgetcalculator.exception.AccountCouldNotBeDeletedException;
     import org.jakubmiczek.restapibudgetcalculator.exception.AccountDoesNotExistException;
     import org.jakubmiczek.restapibudgetcalculator.model.Account;
     import org.jakubmiczek.restapibudgetcalculator.model.Transaction;
-    import org.jakubmiczek.restapibudgetcalculator.model.TransactionCategory;
-    import org.jakubmiczek.restapibudgetcalculator.model.TransactionType;
     import org.jakubmiczek.restapibudgetcalculator.repository.AccountRepository;
     import org.jakubmiczek.restapibudgetcalculator.repository.TransactionRepository;
     import static org.assertj.core.api.AssertionsForClassTypes.*;
