@@ -2,6 +2,7 @@ package org.jakubmiczek.restapibudgetcalculator.service;
 
 import org.jakubmiczek.restapibudgetcalculator.dto.AccountRequest;
 import org.jakubmiczek.restapibudgetcalculator.dto.AccountResponse;
+import org.jakubmiczek.restapibudgetcalculator.dto.TransactionResponse;
 import org.jakubmiczek.restapibudgetcalculator.exception.AccountCouldNotBeDeletedException;
 import org.jakubmiczek.restapibudgetcalculator.exception.AccountDoesNotExistException;
 import org.jakubmiczek.restapibudgetcalculator.model.Account;
@@ -58,5 +59,32 @@ public class AccountService {
         Account account = accountRepository.findById(id).orElseThrow(() -> new AccountDoesNotExistException(id));
 
         return new AccountResponse(account.getId(),  account.getName(), account.getBalance());
+    }
+
+    public String exportTransactionsToCsv(Long id) {
+        accountRepository.findById(id).orElseThrow(() -> new AccountDoesNotExistException(id));
+
+        List<String[]> transactions = transactionRepository.findAll()
+                .stream()
+                .filter(t -> t.getAccount().getId().equals(id))
+                .map(transaction -> new String[]{
+                        transaction.getId().toString(),
+                        transaction.getAmount().toString(),
+                        transaction.getType().toString(),
+                        transaction.getCategory().toString(),
+                        transaction.getDescription(),
+                        transaction.getDate().toString(),
+                        transaction.getAccount().getId().toString()
+                }).toList();
+
+        StringBuilder csvBuilder = new StringBuilder();
+
+        csvBuilder.append("ID;Amount;Type;Category;Description;Date;AccountId\n");
+
+        for (String[] row : transactions) {
+            csvBuilder.append(String.join(";", row)).append("\n");
+        }
+
+        return csvBuilder.toString();
     }
 }

@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.jakubmiczek.restapibudgetcalculator.dto.AccountRequest;
 import org.jakubmiczek.restapibudgetcalculator.dto.AccountResponse;
-import org.jakubmiczek.restapibudgetcalculator.model.Account;
 import org.jakubmiczek.restapibudgetcalculator.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,5 +38,16 @@ class AccountController {
     public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
         accountService.deleteAccount(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/transactions/export")
+    public ResponseEntity<String> exportAccountTransactions(@PathVariable Long id) {
+        String csvContent = accountService.exportTransactionsToCsv(id);
+        String filename = "account_" + id + "_transactions.csv";
+
+        return ResponseEntity.ok()
+                .header("Content-Disposition", "attachment; filename=" + filename)
+                .contentType(org.springframework.http.MediaType.parseMediaType("text/csv"))
+                .body(csvContent);
     }
 }
