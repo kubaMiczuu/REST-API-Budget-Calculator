@@ -15,7 +15,7 @@ class SummaryController {
 
     private final SummaryService summaryService;
 
-    @GetMapping("{/id}")
+    @GetMapping("/{id}")
     public SummaryResponse summary(@PathVariable Long id){
         return summaryService.accountSummary(id);
     }
