@@ -31,3 +31,11 @@ A backend application designed for budget tracking and transaction management, b
 **Once the containers are running, you can explore, view, and test all the live endpoints using the interactive Swagger UI visualization.**
 
 URL: http://localhost:8080/swagger-ui/index.html
+
+### About used AI
+
+I used AI (mostly Claude and Gemini) as a development assistant, primarily focusing on architectural decisions and design patterns. 
+
+Additionally, I used it to resolve complex errors—such as issues with the `TransactionSpecification` class and understanding the core concepts of the Specification. AI was also helpful in configuring the `Dockerfile` and `docker-compose` setup, as well as scaffolding some of the unit and integration tests (with a strong emphasis on integration testing).
+
+I treat AI like a personal help with things I do not understand completely or that i couldn't solve myself. It's like a tutor of mine that helps me to keep my code clean and effective, that simplyfies decision that I have to make.
